@@ -1,0 +1,57 @@
+define
+
+project ICON
+
+node readme
+/***** ICON and Comment ****/
+/* no access to table ! */
+{"dummy"}
+
+node home {<ICON>(<COMMENT>("retour au menu principal de l'utilisateur"),<IMG>("home"))}    
+node del {<ICON>(<COMMENT>("supprimer l'élément"),<IMG>("del"))}    
+node maj {<ICON>(<COMMENT>("modifier le champ"),<IMG>("maj"))}    
+node new {<ICON>(<COMMENT>("ajouter un élément"),<IMG>("new"))}
+node del2 {<ICON_12>(<COMMENT>("supprimer l'élément"),<IMG>("del12"))}    
+node maj2 {<ICON_12>(<COMMENT>("modifier le champ"),<IMG>("maj12"))}    
+node new2 {<ICON_12>(<COMMENT>("ajouter un élément"),<IMG>("new12"))}
+node print2 {<ICON_12>(<COMMENT>("version imprimable"),<IMG>("print12"))}
+node refresh2 {<ICON_12>(<COMMENT>("rafraîchir"),<IMG>("refresh3"))}
+node print {<ICON>(<COMMENT>("version imprimable"),<IMG>("print"))}
+node pwd {<ICON>(<COMMENT>("changer le mot de passe"),<IMG>("pwd"))}    
+node definition {<ICON>(<COMMENT>("voir les définitions de cet élément"),<IMG>("adm"))}    
+node histo {<ICON>(<COMMENT>("voir l'historique"),<IMG>("histo"))}
+node personne {<ICON>(<COMMENT>("ajouter une personne"),<IMG>("contact"))}
+node valid {<ICON>(<COMMENT>("OUI"),<IMG>("VALID"))}
+node invalid {<ICON>(<COMMENT>("NON"),<IMG>("INVALID"))}
+node info {<ICON>(<COMMENT>("Informations supplémentaires"),<IMG>("info"))}
+node refresh {<ICON>(<COMMENT>("rafraîchir..."),<IMG>("refresh2"))}
+node plus12 {<ICON_12>(<COMMENT>("ajouter un objet lié"),<IMG>("plus12"))}   
+
+node plus {<ICON>(<COMMENT>("Ajouter un élément"),<IMG>("plus"))}
+
+
+
+node docClasse[classe]
+      {include docPublic[classe],
+       include docInterne[classe],
+       include docConfidentiel[classe],
+       include docSecret[classe]
+      }   
+
+node docPublic[classe] {<ICON>(<COMMENT>("Document PUBLIC\n\nL'accès est libre à toute personne interne ou externe à l'entreprise. La possibilité de classifier l'information comme publique est limitée à des personnes prédéterminées (par ex. Département Communication). \n\nExemple: Site www.entreprise.com"),
+                <IMG>("doc-public"))}
+   from dual selected by classe="P"
+
+node docInterne[classe] {<ICON>(<COMMENT>("Document INTERNE\n\nL'accès est permis uniquement au personnel l'entreprise. Par défaut toute information est classée comme interne.\n\nExemple: Journal CALVIN, communications internes"),
+                <IMG>("doc-interne"))}
+   from dual selected by classe="I"
+
+node docConfidentiel[classe] {<ICON>(<COMMENT>("Document CONFIDENTIEL\n\nLes données sont réservées à des groupes d'utilisateurs. Il peut s'agir de fonctions d'organisation (par ex. Département Informatique) ou des activités (par ex. les achats). Cette classification est utilisée pour diffuser d'une façon contrôlée l'information auprès des personnes qui doivent y accéder pour des raisons de travail.\n\nExemple: liste des fournisseurs réservée aux personnes qui font des achats, serveurs de fichiers départementaux, projets spéciaux."),
+                <IMG>("doc-confidentiel"))}
+   from dual selected by classe="C"
+
+node docSecret[classe] {<ICON>(<COMMENT>("Document SECRET\n\nL'accès est restreint et nominatif. L'information ne doit pas être diffusée par les personnes qui y ont accès.\n\nExemple: les mots de passe (le détenteur), le salaire (l'employé, le responsable Ressources Humaines et le service de paiement des salaires). Les données sont transmises avec extrême attention (par ex. après chiffrement)."),
+                <IMG>("doc-secret"))}
+   from dual selected by classe="S"
+
+end

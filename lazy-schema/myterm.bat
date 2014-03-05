@@ -1,0 +1,1 @@
+java -jar "C:/LAZY_RELOADED/lazy-schema/dist/lazycompile.jar" C:/LAZY_RELOADED/lazy-schema/myterm.lzy

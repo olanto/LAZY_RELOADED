@@ -1,0 +1,31 @@
+.TABLE { border:4 solid #888800 ; cellspacing: 5;cellpadding: 5; 
+         width=100%; font-family:Trebuchet MS;}
+
+.CAPTION {cellspacing: 0; background-color: #BBBBFF;  font-weight: bold}
+
+.CELL_TITLE {font-weight: bold}
+.CELL_TITLE_R {font-weight: bold ; text-align: right;}
+
+.ROW {}
+.ROWnegatif {color:red;}
+.ROWODD{font-weight: bold }
+.ROWEVEN{}
+
+.ROWODDnegatif{ font-weight: bold ;color:red;}
+.ROWEVENnegatif{ color:red;}
+
+.CELL_BG1 {  font-weight: bold  }
+.CELL_BG1_R { font-weight: bold ; text-align: right }
+.CELL_BG2 { }
+.CELL_R {border:4 solid #888800 ; cellspacing: 20;cellpading: 20; 
+           text-align: right; }
+.CELL_FIX { font-family: Courier }
+.CELL_WARNING {  }
+.CELL_LIB {font-style: italic; }
+.CELL_CODE { }
+.CELL_VAL { font-weight: bold }
+
+.ICON {height: 19px ; border: 0 ;}
+
+               
+.P { text-indent: 0; line-height: 20%; text-align: justify  }

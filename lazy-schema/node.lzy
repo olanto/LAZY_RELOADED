@@ -1,0 +1,139 @@
+define
+
+project NODE
+
+
+
+
+node lazy_compileProject[selectprojectid,selectname] /* compile project and clear all caches in the server */
+  {include project[selectprojectid]} 
+
+node lazydiag
+  {<HR>(<APPLET code="Figure.class" width="550" height="350" >(""))}
+
+
+node getDynamicInfo[project,node,type]
+{"is executed by node server"}
+
+node all_projects
+  {href SECURE.menu("menu principal"),"<hr/>",
+   include SECURE.all_projects}
+   
+node project[selectid]
+   href SECURE.menu("menu principal")," | ",
+   href all_projects("&lt;&lt;&lt;")," | ",
+   href project_showtxt[selectid]("show source")," | ",
+   href in _blank lazydiag ("syntax")," | ",
+   href statistic[selectid] ("statistic"),
+   "<hr/>",
+   <TABLE_BG2>(
+        <CAPTION>("Project: ", selectid,  href new_node[selectid](include ICON.new)),
+ 
+     {
+      <ROW>(<CELL_BG2>(
+                   expand href del_node[projectid,name] (include ICON.del),
+                   <ICON>(<COMMENT>("compilation state"),<IMG>(status)),
+                   href maj_node[projectid,name] (include ICON.maj),
+                   name
+                   /*  ":<pre><![","CDATA[",plaintxt,"]","]></pre>", */
+                   ) 
+           )
+        })
+from nodes selected by projectid = selectid
+
+node statistic[selectid]
+   {href project[selectid]("&lt;&lt;&lt;")," | ",
+   "<hr/>",
+   include statistic_global,"<hr/>",
+   include statistic_def,"<hr/>",
+   include statistic_project[selectid],"<hr/>"
+   }
+
+node statistic_header[Title]
+        {<CAPTION>(Title),
+        <CELL_TITLE>("Object"),
+        <CELL_TITLE>("Cache size"),
+        <CELL_TITLE>("Nb. Put"),
+        <CELL_TITLE>("PutSize"),
+        <CELL_TITLE>("Nb. Get"),
+        <CELL_TITLE>("Nb. Found"),
+        <CELL_TITLE>("Query Time"),
+        <CELL_TITLE>("Save Time")}
+
+node statistic_global
+   <TABLE_BG2>(include statistic_header["Global Statistic"],
+     {<ROW>(<CELL>("Total"), include getDynamicInfo["dummy","dummy","GLOBAL"])})
+
+node statistic_def
+   <TABLE_BG2>(include statistic_header["Definition Statistic"],
+     {<ROW>(<CELL>("Definition Cache"), include getDynamicInfo["dummy","dummy","DEF"])})
+
+node statistic_project[selectid]
+   <TABLE_BG2>(include statistic_header[concat("project Statistic: ",selectid)],
+     {<ROW>(<CELL>(name), include getDynamicInfo[projectid,name,"PROJECT"])})
+from nodes selected by projectid = selectid
+order by name 
+
+node new_node[selectprojectid]
+   href SECURE.menu("menu principal")," | ",
+   href project[selectprojectid]("&lt;&lt;&lt;")," | ",
+   "<hr/>",
+   <TABLE_BG2>({active href lazy_compileProject[selectprojectid,"[[!name]]"] (
+           set parameter_encoding="CDATA", /* no translate of &amp; &lt; */   
+           set status="INVALID",
+           set projectid=selectprojectid,
+      <ROW>(<CELL_BG2>(on "confirm compile &amp; insert" do insert nodes,<b>(selectprojectid))),
+      <ROW>(<CELL_BG2>(set name = free(<input name="av" size="50">("node_name")))),
+      <ROW>(<CELL_BG2>(set plaintxt = free(<textarea name="av" rows="25" cols="100">("node\n {}" ))))
+      )})
+
+node maj_node[selectprojectid,selectname]
+   href SECURE.menu("menu principal")," | ",
+   href project[selectprojectid]("&lt;&lt;&lt;")," | ",
+   "<hr/>",
+   <TABLE_BG2>({active href lazy_compileProject[selectprojectid,selectname] (
+           set parameter_encoding="CDATA", /* no translate of &amp; &lt; */ 
+           set status="INVALID",
+      <ROW>(<CELL_BG2>(on "confirm compile &amp; update" do update nodes[projectid,name],<b>(name))),
+      <ROW>(<CELL_BG2>(set plaintxt = free(<textarea name="av" rows="25" cols="100">("<![","CDATA[",plaintxt,"]","]>")))),
+      <ROW>(<CELL_WARNING>(<b textcolor="red">(error)))
+      )}) 
+   from nodes selected by projectid = selectprojectid and name=selectname
+
+node del_node[selectprojectid,selectname]
+   <TABLE>(<ROW>(<CELL_WARNING>(
+   {active href project[selectprojectid] ( on "confirm delete" do delete nodes[projectid,name],<b>("suppression de: ",name))}))) 
+   from nodes selected by projectid = selectprojectid and name=selectname
+
+
+node project_showtxt[selectid]
+   href SECURE.menu("menu principal")," | ",
+   href project[selectid]("&lt;&lt;&lt;")," | ",
+   "<hr/>",
+   {<pre>(include project_gettxt[selectid])}
+
+node project_gettxt[selectid]
+  "define project ", selectid, "\n",
+    {"<![","CDATA[",plaintxt,"]","]>"},
+  "\nend"
+from nodes selected by projectid = selectid
+order by name 
+
+node node_gettxt[selectprojectid,selectname]
+  cachesize=0 // reload dynamic node !
+    {<pre>("<![","CDATA[",plaintxt,"]","]>")}
+from nodes
+selected by 
+     projectid = selectprojectid
+     and name=selectname         
+
+
+node test
+  {<P_small>(name)}
+from  nodes
+order by 1 
+
+end
+
+
+       ":<pre><![CDATA[",txt,"]]></pre>"

@@ -1,0 +1,38 @@
+
+data/*
+dist/*
+corpus/*
+template/data_empty/*
+TEMP/*
+SAVE/*
+GWT/*
+logs/*
+private/*
+private/*
+
+#################
+## Netbeans
+#################
+
+prog/*/nbproject/private/
+prog/*/build/
+prog/*/nbbuild/
+prog/*/dist/
+prog/*/store/
+prog/*/nbdist/
+prog/*/nbactions.xml
+prog/*/nb-configuration.xml
+
+
+
+############
+## Windows
+############
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+

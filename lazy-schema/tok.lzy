@@ -1,0 +1,55 @@
+define
+
+project TOK
+
+
+node welcome
+ {"welcome to TOK navigator <hr/>",
+  href relation_list("relations"),
+  href source_list("sources")
+  }
+
+node top
+  href welcome("main menu")
+node foot
+  href welcome("main menu")
+
+
+node relation_list
+include top,
+<TABLE>(
+     <CAPTION>( "Relations"),
+     {<ROW>(include relation_item[rel])
+}), include foot
+from relations order by rel
+
+node relation_item[select_rel]
+{<CELL>(rel),
+ <CELL>(expand href source_item_info[source](source)),
+ <CELL>(relinv),
+ <CELL>(lib)
+}
+from relations selected by rel = select_rel
+
+node source_list
+include top,
+<TABLE>(
+     <CAPTION>( "Sources"),
+     {<ROW>(include source_item[source])
+}), include foot
+from sources order by source
+
+node source_item[select_source]
+{<CELL>(source),
+ <CELL>(lib)
+}
+from sources selected by source = select_source
+
+node source_item_info[select_source]
+{ source, ": ", lib }
+from sources selected by source = select_source
+
+ 
+end	                                                    
+
+         

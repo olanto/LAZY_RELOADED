@@ -1,0 +1,148 @@
+
+define project UTIL
+
+node baz_fonctions
+  {"dummy"}
+  
+/*
+--------------------------------------------------------------
+A recompiler sous CMD (et non pas sous UltraEdit):
+	cd U:\GroupesDeTravail\GrpInformatique\info_2000\LAZY\Lazy40
+	U:
+	lc ./basic/util.lzy
+----------------------------------------
+Dans chaque instance Oracle ...
+
+connect baz/...@UNO1
+              - HD02
+              - WB02
+
+
+CREATE OR REPLACE  FUNCTION datetostring  -- génére un string pour lazy
+    (datein  date)
+return varchar2
+IS
+BEGIN
+ return to_char(datein,'dd.mm.yyyy');
+end datetostring;
+/
+show errors;
+
+select datetostring(SYSDATE) from dual;
+
+grant execute on datetostring to public;
+
+create public synonym datetostring for BAZ.datetostring;
+
+
+CREATE OR REPLACE  FUNCTION datetomonthyear  -- génére un string pour lazy
+    (datein DATE) 
+return VARCHAR2 
+IS 
+dateout VARCHAR2(30);
+BEGIN
+select decode(to_char(datein,'mm'),'01','janvier',
+'02','février',
+'03','mars',
+'04','avril',
+'05','mai',
+'06','juin',
+'07','juillet',
+'08','août',
+'09','septembre',
+'10','octobre',
+'11','novembre',
+'12','décembre',' ')||' '||to_char(datein,'yyyy') into dateout from dual;
+RETURN dateout;
+end datetomonthyear;
+/
+show errors;
+
+select datetomonthyear(SYSDATE) from dual;
+
+grant execute on datetomonthyear to public;
+
+create public synonym datetomonthyear for BAZ.datetomonthyear;
+
+
+CREATE OR REPLACE  FUNCTION stringtodate  -- génére une date pour Oracle
+    (datein  string)
+return date
+IS
+BEGIN
+ return to_date(datein,'dd.mm.yyyy');
+end stringtodate;
+/
+show errors;
+
+select stringtodate('11.07.1956') from dual;
+
+grant execute on stringtodate to public;
+
+create public synonym stringtodate for BAZ.stringtodate;
+
+*/  
+node header55[classe]
+	{<TABLE>(<ROW>(
+	 //<CELL>(href SECURE.menu(include ICON.home)),
+	 <CELL>("[[USER]] - [[GRP]]"),
+	 <CELL_R>(include nowDateEtHeure," ",include ICON.docClasse[classe])
+	 )),
+	"<hr/>" }
+
+node header[classe]
+    {include headerALL[classe], include headerGEN_FIN[classe] , include headerACT_CH[classe]}
+
+node headerALL[classe]
+	{<TABLE>(<ROW>(
+	 <CELL>(href SECURE.menu(include ICON.home)),
+	 <CELL>("[[USER]] - [[GRP]]"),
+	 <CELL_R>(include nowDateEtHeure," ",include ICON.docClasse[classe])
+	 )),
+	"<hr/>" }
+	from dual
+	selected by "GEN_FIN"!="[[GRP]]"
+	and "ACT_CH"!="[[GRP]]"
+
+node headerGEN_FIN[classe]
+	{<TABLE>(<ROW>(
+	 <CELL>(href SECURE.menu(include ICON.home)),
+	 <CELL>(href PFTUTIL.menu (<ICON>("up"))),
+	 <CELL>(href CONTACT.start_contact (<ICON>("user"))),
+	 <CELL>("<a href=\"http://mediawiki/mediawiki/index.php/Org_Patrimoine\"><ICON><COMMENT>documentation et procédures</COMMENT><IMG>documentation</IMG></ICON></a>"),
+	 <CELL>("[[USER]] - [[GRP]]"),
+	 <CELL_R>(include nowDateEtHeure," ",include ICON.docClasse[classe])
+	 ))
+	}
+	from dual
+	selected by "GEN_FIN"="[[GRP]]"
+
+node headerACT_CH[classe]
+	{<TABLE>(<ROW>(
+	 <CELL>(href SECURE.menu(include ICON.home)),
+	 <CELL>(href PFTUTIL.menu (<ICON>("up"))),
+	 <CELL>(href CONTACT.start_contact (<ICON>("user"))),
+	 <CELL>("[[USER]] - [[GRP]]"),
+	 <CELL_R>(include nowDateEtHeure," ",include ICON.docClasse[classe])
+	 ))
+	}
+	from dual
+	selected by "ACT_CH"="[[GRP]]"
+
+
+node headerWithOutHR[classe]
+	{<TABLE>(<ROW>(
+	 <CELL>(href SECURE.menu(include ICON.home)),
+	 <CELL>("[[USER]] - [[GRP]]"),
+	 <CELL_R>(include nowDateEtHeure," ",include ICON.docClasse[classe])
+	 ))}
+
+node nowDateEtHeure cachesize=0 {to_char(sysdate,"dd.mm.yyyy hh24:mi:ss")} 
+
+node nowDate cachesize=0 {to_char(sysdate,"dd.mm.yyyy")}
+
+node upload[selDest]
+	{"<a href=\"javascript:window.open('ns?a=UTIL.execUpload&amp;u=",selDest,"','upload','width=450,height=200,resizable=no, top=50, left=200, scrollbars=no');window.back;\">charger un fichier</a>"}
+end
+
+

@@ -1,0 +1,194 @@
+PRE {font-family: "Times New Roman", Times, serif; }
+
+.TABLE { border: 1  solid #888800 ;background-color: #FFFFFF; width=100%}
+.TABLE_MIN { border: 1  solid #888800 ;background-color: #FFFFFF; width=0%;
+             line-height: 100%}
+.TABLE_MIN2 { border: 1  solid #888800 ;background-color: #FFFFF9; width=0%;
+             line-height: 100%}             
+.TABLE_MARGIN { border: 1  solid #888800 ;background-color: #FFFFFF; width=0%;
+					margin-left:140}
+.TABLE_BG2_100 { border: 0 solid #880000 ;background-color: w hite; width=100%;font-family:Trebuchet MS cel}
+.TABLE_BG3 { border: 1 solid #888800 ;background-color: #191919}
+.TABLE_BG4 { border: 0 solid #880000 ;background-color: black; width=100%;font-size: 10 pt;text-align: center ;font-family:Times}
+.TABLE_BG5 { border: 0 solid #880000 ;background-color: white; width=100%;font-size: 10 pt;text-align: center ;font-family:Times}
+             
+
+.TABLE_BG1 {border: 0 solid #000000 ;background-color: white; width=100% ; border-collapse: collapse;}
+.TABLE_BG2 {border: 0 solid #880000 ;background-color: white; }
+.TABLE_BG1_MIDDLE {border: 0 solid #000000 ;background-color: white; width=50% ; border-collapse: collapse;}
+
+ 
+.COUVERTURE { background-color: white; font-size: 9 pt;text-align: left;font-weight: normal;vertical-align : top;width 100%;	border-left: 1 solid; border-right: 1 solid; border-bottom: 1 solid; border-color:#C0C0C0;}         
+.CELL_9R { background-color: white; font-size: 9 pt;text-align: right;font-weight: normal;vertical-align : top;width 100%;	border-left: 1 solid; border-right: 1 solid; border-bottom: 1 solid; border-color:#C0C0C0;}         
+.CELL_9L { background-color: white; font-size: 9 pt;text-align: left;font-weight: normal;vertical-align : top;width 100%;	border-left: 1 solid; border-right: 1 solid; border-bottom: 1 solid; border-color:#C0C0C0;}         
+.DESCRIPTIF { background-color: white; font-size: 9 pt;text-align: left;font-weight: normal;vertical-align : top;width=50%; border-right: 1 solid; border-color:#C0C0C0;}
+.DESCRIPTIF_TAB {padding-left: 15pt; background-color: white; font-size: 9 pt;text-align: left;font-weight: normal;vertical-align : top;width=50%; border-right: 1 solid; border-color:#C0C0C0;}
+.SOMME { padding-left: 3pt; background-color: white; font-size: 9 pt;text-align: right;font-weight: normal;vertical-align : top; width=15%;	border-right: 1 solid; border-color:#C0C0C0;}            
+.TAUX{padding-left: 3pt; background-color: white; font-size: 9 pt;text-align: right;font-weight: normal;vertical-align : top; width=5%;	border-right: 1 solid;  border-color:#C0C0C0;}            
+.PRIME {	padding-left: 3pt;	background-color: white;	font-size: 9 pt;	text-align: right;	font-weight: normal;
+	vertical-align: top;	width: 15%;	border-right: 1 solid;	border-color: #C0C0C0;	}
+.CR {
+	background-color: white;
+	text-align: right;
+	font-size: 9pt;
+	vertical-align: top;
+}
+
+
+
+.FRANCHISE{padding-left: 3pt;  background-color: white; font-size: 9 pt;text-align: right;font-weight: normal;vertical-align : top; width=15%;	border-color:#C0C0C0;}
+
+
+.DESCRIPTIF_HEAD {background-color: #C0C0C0;font-size: 9 pt; font-family:Trebuchet MS;	text-align: center;	font-style: normal; font-weight: bold;vertical-align : top;width=50%;	border: 1 solid; border-color:#C0C0C0;}
+.SOMME_HEAD {background-color: #C0C0C0;font-size: 9 pt; font-family:Trebuchet MS;	color: #000000; text-align: center;	font-style: normal; font-weight: bold;vertical-align : top;width=15%;	border: 1 solid; border-color:#C0C0C0;}            
+.TAUX_HEAD{background-color: #C0C0C0;font-size: 9 pt; font-family:Trebuchet MS;	color: #000000; text-align: center;	font-style: normal; font-weight: bold;vertical-align : top;width=5%;	border: 1 solid; border-color:#C0C0C0;}            
+.PRIME_HEAD {background-color: #C0C0C0;font-size: 9 pt; font-family:Trebuchet MS;	color: #000000; text-align: center;	font-style: normal; font-weight: bold;vertical-align : top;width=15%;	border: 1 solid; border-color:#C0C0C0;}
+.FRANCHISE_HEAD{background-color: #C0C0C0;font-size: 9 pt; font-family:Trebuchet MS;	color: #000000; text-align: center;	font-style: normal; font-weight: bold;vertical-align : top;width=15%;	border: 1 solid; border-color:#C0C0C0;}         
+
+
+
+
+.CELL_BG2_HEADER{border: 0 ;background-color: #C0C0C0;
+          			font-size: 9 pt; font-family: Trebuchet MS;
+          			color: #000000; text-align: center;
+          			font-style: normal; font-weight: bold;}    
+.SINISTRES_HEADER{border: 0 ;background-color: #C0C0C0;
+          			font-size: 7 pt; font-family: Trebuchet MS;
+          			color: #000000; text-align: center;
+          			font-style: normal; }    						
+.SINISTRES_FOOTER{border: 0 ;background-color: #C0C0C0;
+          			font-size: 9 pt; font-family:Trebuchet MS;
+          			color: #000000; text-align: right;
+          			font-weight: bold; }    						
+
+.CAPTION {cellspacing: 0; border: 1 solid #888800 ;background-color: #BBBBFF;
+          font-size: 12 pt; font-family:Trebuchet MS;
+          color: #000000;
+          font-style: bold; font-weight: bold}
+.CAPTION2 {cellspacing: 0; border: 0 solid #888800 ;background-color: #BBBBFF;
+          font-size: 8 pt; font-family:Trebuchet MS;
+          color: #000000;
+          font-style: bold; font-weight: bold}
+          			
+.CELL_BG2_CENTER{  center;text-align: center;background-color: white;} 
+.CELL_BG2_9 { background-color: white; font-size: 9 pt;text-align: left;font-weight: normal;vertical-align : top;}   
+._CELLT_BG2_9 { text-indent: 25; background-color: white; font-size: 9 pt;text-align: left;font-weight: normal;vertical-align : top; }   
+.CELLT_BG2_9  {padding-left: 15pt; background-color: white; font-size: 9 pt;text-align: left;font-weight: normal;vertical-align : top;}
+.CELL_BG2_9R { background-color: white; font-size: 9 pt;text-align: right;font-weight: normal;}   
+.CELL_BG2_9_GREEN { background-color: #ffffF9; font-size: 9 pt; font-family:Trebuchet MS; text-align: left;font-weight: normal;vertical-align : top;color: #006633; text-indent: 10}   
+.CELL_BG2_9R_GREEN { background-color: #fffff9; font-size: 9 pt; font-family:Trebuchet MS; text-align: right ;font-weight: normal;vertical-align : top;color: #006633; text-indent: 10}   
+.CELL_BG2_9_RED { background-color: white; font-size: 9 pt; font-family:Trebuchet MS; text-align: left ;font-weight: bold;vertical-align : top;color: red; text-indent: 10}   
+.CELL_BG2_9_GREEN2 { background-color: white; font-size: 9 pt;text-align: left;font-weight: bold;vertical-align : top;font-family:Trebuchet MS; }   
+.CELL_BG2_ITALIC_9 { background-color: white; font-size: 9 pt;text-align: left;font-weight: normal;font-style: italic;vertical-align : top;line-height: 100%}
+.CELL_BG4 { background-color: #fffff9; font-size: 9 pt; font-family:Trebuchet MS; text-align: left ;font-weight: normal;vertical-align : top}   
+          			      
+.CELL_TITLE {cellspacing: 0; border: 0 solid #888800 ;background-color: #BBBBFF;
+          font-size: 10 pt; font-family:Trebuchet MS;
+          color: #000000; height: 12 pt;
+          font-style: normal; font-weight: bold}
+.CELL_TITLE_FIX {cellspacing: 0; border: 0 solid #888800 ;background-color: #BBBBFF;
+          font-size: 9 pt; font-family:Trebuchet MS;
+          color: #000000; height: 11 pt;width=120 pt;
+          font-style: normal; font-weight: bold}
+
+
+.CELL_TITLE_R {cellspacing: 0; border: 0 solid #888800 ;background-color: #BBBBFF;
+          color: #000000;
+          font-style: normal; font-weight: bold ; text-align: right;}
+ 
+.CELL_L { padding-left: 3pt;text-align: left; }    
+.CELL_WHITE_L { padding-left: 3pt;text-align: left;background-color: white;}    
+.CELL_WHITE {background-color: white;}
+.CELL_BLUE {background-color: #CCFFFF;}
+.CELL_GRAY {background-color: #D2D2D2}
+.CELL_EMPTY_GRAY {background-color: #D2D2D2; color: #D2D2D2}
+.CELL_YELLOW {background-color: #FFFF99}
+.CELL_YELLOW_RED {background-color: #FFFF99; color: #FF0000;}
+.CELL_ORANGE {background-color: #FFCC66}
+.CELL_ORANGE_RED {background-color: #FFCC66; color: #FF0000;}
+.CELL_RED {background-color: #CC0000}
+.CELL_RED_YELLOW {background-color: #CC0000; color: #FFFF99;}
+.CELL_RED_GEEEN {background-color: #CC0000; color: black;}
+.CELL_DARK_BLUE {background-color: #99CCFF}
+.CELL_DARK_YELLOW {background-color: #FFFF00}
+.CELL_DARK_YELLOW_RED {background-color: #FFFF00; color: #FF0000;}    
+.CELL_DARK_ORANGE {background-color: #FF9933} 
+.CELL_DARK_ORANGE_RED {background-color: #FF9933; color: #FF0000;}       
+.CELL_NEG {  text-align: right; color: red;background-color: white; }
+.CELL_POS {  text-align: right; color: black;background-color: white; }
+.CELL_NEG_STD {  text-align: right; color: red;}
+.CELL_POS_STD {  text-align: right; color: black;}
+.CELL_NEG_GRAY {  text-align: right; color: red;background-color: #D2D2D2 }
+.CELL_POS_GRAY {  text-align: right; color: black;background-color: #D2D2D2 } 
+.CELL_TEXT_RED {   color: red;}
+.CELL_TEXT_GREEN {   color: green;}
+.CELL_LIB { background-color: #EEFFFF; padding-left: 2pt; padding-right: 2 pt;font-style: italic; font-weight: normal;text-align: left;}
+.CELL_CODE { background-color: #EEFFFF; padding-left: 2pt; padding-right: 2 pt;font-style: normal; font-weight: normal;}
+.CELL_VAL { background-color: #EEFFFF; padding-left: 2pt; padding-right: 2 pt;font-style: normal; font-weight: bold; text-align: left;}
+
+.CELL_TITLE_TWR{cellspacing: 0; border: 0 solid #888800 ;background-color: #BBBBFF;
+          		font-size: 8 pt; font-family:Trebuchet MS;color: #000000; height: 10pt;
+          		font-style: normal; font-weight: bold}
+.CELL_TWR{cellspacing: 0; border: 0 solid #888800 ;font-size: 8 pt; font-family:Trebuchet MS;
+					height: 10pt;font-style: normal;font-weight: normal;text-align: left;}
+.CELL_TWR_R{cellspacing: 0; border: 0 solid #888800 ;font-size: 8 pt; font-family:Trebuchet MS;
+					height: 10pt;font-style: normal;font-weight: normal;text-align: right;}					
+ .CELL_3TWR{cellspacing: 0; border: 0 solid #888800 ;font-size: 8 pt; font-family:Trebuchet MS;
+					height: 10pt;font-style: normal;font-weight: normal;text-align: left;background-color: #EEEFFF}
+.CELL_3TWR_R{cellspacing: 0; border: 0 solid #888800 ;font-size: 8 pt; font-family:Trebuchet MS;
+					height: 10pt;font-style: normal;font-weight: normal;text-align: right;background-color: #EEEFFF}			
+ 
+ 
+ 
+.ROW {background-color: #EEFFFF;}
+._ROW {background-color: White;}
+.ROW_BG4 { background-color: white}
+.ROWODD{background-color:  #EEFFFF}
+.ROWEVEN{background-color: #EEEFFF}
+.CELL_OLD { background-color: #EEFFFF; padding-left: 2pt; padding-right: 2 pt }
+.CELL_BG1 { background-color: #BBBBFF ; padding-left: 5pt; padding-right: 5 pt  }
+.CELL_BG1R { background-color: #BBBBFF ; text-align: right ;font-weight: bold}
+.CELL_BG2 { background-color: white; font-family: Trebuchet MS; line-height: 100%;font-size: 11 pt;}
+.CELL_BG2R { background-color: white; text-align: right}
+.CELL_BG3R { background-color: EEEFFF; text-align: right; font-weight: normal}
+.CELL_BG2_UP {background-color: white; vertical-align : top;}
+.CELL_R {  text-align: right; }
+.CELL_FIX { background-color: #EEFFFF; font-family: Courier }
+.CELL_WARNING { background-color: #FFDDDD;  }
+.CELL_print { background-color: white; font-size: 7pt ; padding-left: 5pt; padding-right: 5 pt}
+
+.ICON {height: 19px ;  border: 0 ;}
+.ICON_12 {height: 12px ;  border: 0 ;}
+.ICON_13 {height: 13px ;  border: 0 ;}
+.ICON_WZ{border: 0 ;}
+.ICON_LT{height: 15px ; border: 0 ;}
+
+.TITLE_PAGE { text-indent: 0; background-color: #FFFFFF; font-size: 18 pt; font-family: Trebuchet MS; line-height: 100%; text-align: center ; color: #000000; font-style: normal; font-weight: bold }
+
+.TITLE2 { text-indent: 0; background-color: #FFFFFF;  font-family: 
+               Trebuchet MS; line-height: 100%; text-align: left; color: #000000;
+               font-style: normal; font-weight: bold }
+.TITLE3 { text-indent: 0; background-color: #FFFFFF; font-size: 12 pt; font-family:Trebuchet MS; line-height: 100%; text-align: left; color: #000000;font-style: normal}
+.TITLE3_NOIR { text-indent: 0; background-color: #FFFFFF; font-size: 12 pt; font-family:Trebuchet MS; line-height: 100%; text-align: left; color: #000000;font-style: normal}
+.TITLE3_BLEU { text-indent: 0; background-color: #FFFFFF; font-size: 12 pt; font-family:Trebuchet MS; line-height: 100%; text-align: left; color: Blue;font-style: normal}
+.TITLE3_VERT { text-indent: 0; background-color: #FFFFFF; font-size: 12 pt; font-family:Trebuchet MS; line-height: 100%; text-align: left; color: Green;font-style: normal}
+.TITLE3_PINK { text-indent: 0; background-color: #FFFFFF; font-size: 12 pt; font-family:Trebuchet MS; line-height: 100%; text-align: left; color: Fuchsia;font-style: normal}
+.TITLE3_ROUGE { text-indent: 0; background-color: #FFFFFF; font-size: 12 pt; font-family:Trebuchet MS; line-height: 100%; text-align: left; color: Red;font-style: normal}
+
+.CELL_BG2_NOIR { background-color: white; font-family: Trebuchet MS; line-height: 100%;font-size: 11 pt;color: #000000;text-align: left;}
+.CELL_BG2_BLEU { background-color: white; font-family: Trebuchet MS; line-height: 100%;font-size: 11 pt;color: Blue;text-align: left;}
+.CELL_BG2_VERT { background-color: white; font-family: Trebuchet MS; line-height: 100%;font-size: 11 pt;color: Green;text-align: left;}
+.CELL_BG2_PINK { background-color: white; font-family: Trebuchet MS; line-height: 100%;font-size: 11 pt;color: Fuchsia;text-align: left;}
+.CELL_BG2_ROUGE { background-color: white; font-family: Trebuchet MS; line-height: 100%;font-size: 11 pt;color: Red;text-align: left;}
+
+
+.TITLE4 {   font-size: 14 pt; font-family: 
+               Trebuchet MS; line-height: 100%; text-align: center; color: #000000;
+               font-style: normal; font-weight: bold }               
+               
+.P { text-indent: 0;  font-size: 10 pt; font-family: 
+               Trebuchet MS; line-height: 20%; text-align: justify ; color: #000000 }
+.P_small    { text-align: justify; line-height: 100%; text-indent: 0; font-size: 9 pt; font-family: 
+               Trebuchet MS;  margin-top: 3; margin-bottom: 0 ; color: #000000}
+               
+

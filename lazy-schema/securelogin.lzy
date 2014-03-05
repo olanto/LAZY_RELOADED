@@ -1,0 +1,799 @@
+/* to do : ajouter un paramètre pour permettre le chargement des noeuds vides */
+/* to do : encrypter le mot de passe */
+/* to do : [[ dans le langage lazy */
+/* to do : optimise initText() */
+/* to do : intéger les noeuds et les projets */
+/* to do : bug des modifications si la clé commence avec un blanc , ex: delete .... */
+/* to do : intéger les noeuds et les projets */
+/* to do : gérer la connection par projet */
+
+
+/* it's done to do : régler le problème de la seconde connection */
+
+define
+
+  project SECURE
+  
+node top
+   {href menu("Menu principal"),"<hr/>"}  
+
+node all
+include top,
+<TITLE_PAGE>( "SECURE LOGIN APPLICATION: [[USER]] [[GRP]] [[STYLE]] "),
+   {include all_users,
+   "<hr/>",include all_roles,
+   "<hr/>",include all_data,
+   "<hr/>",include all_categories,
+   "<hr/>",include all_projects,
+   "<hr/>",include all_connects
+   }
+
+
+/* les noeuds users */
+
+node all_users
+include top,
+<TABLE>(
+     <CAPTION>( expand href new_users(include ICON.new), "<b>[[?TITLE_USER]]</b>"),
+     {<ROW>(include users[UserId])
+}), include all_managers
+
+from secure_users
+order by UserId
+
+node users[selectid]
+            {<CELL_BG1>(expand href del_users[Userid] (include ICON.del),
+                        expand href maj_users[Userid] (include ICON.maj),
+                        Userid,
+                        expand href all_grants[Userid] (include ICON.definition),
+                        expand href new_grants[Userid] (include ICON.new)),                        
+              <CELL>(expand href maj_pwd_users[Userid] (include ICON.maj),"password"),
+              <CELL>(admin),
+              <CELL>(defaultgrpid),
+              <CELL>(lang),
+              <CELL>(style),
+              <CELL>(infouser),
+              <CELL>(com),
+              <CELL>(include getManager[managerid])
+              }
+from secure_users selected by Userid = selectid
+  
+  
+  
+
+node new_users
+ <TABLE>({active href all (
+   <ROW>(<CELL_WARNING>("User_id      : ", set userid = textfield(12, ""))),
+   <ROW>(<CELL_WARNING>("password     : ", set encoded(pwd) = textfield(12, ""))),
+   <ROW>(<CELL_WARNING>("admin        : ", set admin = select(include list_codeid["ADMI","NO"] ))),
+   <ROW>(<CELL_WARNING>("Defaut_Grp   : ", set defaultgrpid = select(include list_grpid["PUBLIC"]))),
+   <ROW>(<CELL_WARNING>("Responsable  : ", set MANAGERID = select(include list_manager))),
+   <ROW>(<CELL_WARNING>("Lang         : ", set lang = select(include list_codeid["LANG","FR"]))),
+   <ROW>(<CELL_WARNING>("Style        : ", set style = select(include list_codeid["STYLE","TABLE"]))),
+   <ROW>(<CELL_WARNING>("User_info    : ", set infouser = textarea(3,40, ""))),
+   <ROW>(<CELL_WARNING>("Comment      : ", set com = textarea(3,40, ""))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_users,<b>("Création d'un utilisateur")))
+ )})
+
+node maj_users[selectid]
+ <TABLE>({active href all (
+   <ROW>(<CELL_WARNING>("admin        : ", set admin = select(include list_codeid["ADMI",admin] ))),
+   <ROW>(<CELL_WARNING>("Defaut_Grp   : ", set defaultgrpid = select(include list_grpid[defaultgrpid]))),
+   <ROW>(<CELL_WARNING>("Responsable  : ", set MANAGERID = select(include list_manager[MANAGERID]))),  
+   <ROW>(<CELL_WARNING>("Lang         : ", set lang = select(include list_codeid["LANG",lang]))),
+   <ROW>(<CELL_WARNING>("Style        : ", set style = select(include list_codeid["STYLE",style]))),
+   <ROW>(<CELL_WARNING>("User_info    : ", set infouser = textarea(3,40,infouser))),
+   <ROW>(<CELL_WARNING>("Comment      : ", set com = textarea(3,40, com))),
+   <ROW>(<CELL_WARNING>(on "confirm update" do update secure_users[userid],<b>("modification de: ",selectid)))
+ )})
+   from secure_users selected by Userid = selectid
+
+node del_users[selectid]
+   <TABLE>(<ROW>(<CELL_WARNING>(
+   {active href all ( on "confirm delete" do delete secure_users[userid],<b>("suppression de: ",selectid))}))) 
+   from secure_users selected by userid = selectid
+
+node maj_pwd_users[selectid]
+   <TABLE>({active href menu (
+      <ROW>(<CELL_WARNING>("password     : ", set encoded(pwd) = textfield(12, "*****"))),
+      <ROW>(<CELL_WARNING>(on "confirm update" do update secure_pwdmodif[userid],<b>("modification de: ",selectid)))
+      )}) 
+   from secure_pwdmodif selected by Userid = selectid
+
+
+/* les noeuds managers */
+
+node all_managers
+include top,
+<TABLE>(
+     <CAPTION>( expand href new_managers(include ICON.new), "<b>[[?TITLE_MANAGER]]</b>"),
+     {<ROW>(include managers[MANAGERID])})
+
+from secure_manager
+order by MANAGERID
+
+node managers[selectid]
+            {<CELL_BG1>(expand href del_managers[MANAGERID] (include ICON.del),
+                        expand href maj_managers[MANAGERID] (include ICON.maj),
+                        MANAGERID),                        
+              <CELL>(manager),              
+              <CELL>(com)
+              }
+from secure_manager selected by MANAGERID = selectid
+  
+node new_managers
+ <TABLE>({active href all (
+   <ROW>(<CELL_WARNING>("Departemnt_ID: ", set managerid = textfield(12, ""))),
+   <ROW>(<CELL_WARNING>("Responsable(s): ", set manager = textfield(12, ""))),   
+   <ROW>(<CELL_WARNING>("Comment      : ", set com = textarea(3,40, ""))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_manager,<b>("Création d'un reponsable")))
+ )})
+
+node maj_managers[selectid]
+ <TABLE>({active href all (
+   <ROW>(<CELL_WARNING>("Departemnt_ID: ", set managerid = textfield(12,managerid))),
+   <ROW>(<CELL_WARNING>("Responsable(s): ", set manager = textfield(12,manager))),   
+   <ROW>(<CELL_WARNING>("Comment      : ", set com = textarea(3,40,com))),
+   <ROW>(<CELL_WARNING>(on "confirm update" do update secure_manager[managerid],<b>("modification de: ",selectid)))
+ )})
+   from secure_manager selected by MANAGERID = selectid
+
+node del_managers[selectid]
+   <TABLE>(<ROW>(<CELL_WARNING>(
+   {active href all ( on "confirm delete" do delete secure_manager[userid],<b>("suppression de: ",selectid))}))) 
+    from secure_manager selected by MANAGERID = selectid
+
+  
+/* les noeuds data */
+
+node all_data
+<TABLE>(
+     <CAPTION>( expand href new_data(include ICON.new), "<b>[[?TITLE_DATA]]</b>"),
+     {<ROW>(include data[grpId])
+               })
+from secure_data
+order by grpid
+
+node data[selectid]
+            {<CELL_BG1>(expand href del_data[grpid] (include ICON.del),
+                        expand href maj_data[grpid] (include ICON.maj),
+                        grpid),                        
+              <CELL>( com)
+              }
+from secure_data selected by grpid = selectid
+
+node new_data
+ <TABLE>({active href all (
+   <ROW>(<CELL_WARNING>("Grp_id       : ", set grpid = textfield(12, ""))),
+   <ROW>(<CELL_WARNING>("Comment      : ", set com = textarea(3,40, ""))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_data,<b>("Création d'un groupe de données")))
+ )})
+
+node del_data[selectid]
+    <TABLE>(<ROW>(<CELL_WARNING>(
+    {active href all ( on "confirm delete" do delete secure_data[grpid],<b>("suppression de: ",selectid))}))) 
+   from secure_data selected by grpid = selectid
+
+node maj_data[selectid]
+   <TABLE>({active href all (
+      <ROW>(<CELL_WARNING>("Comment     : ", set com = textarea(3,40, com))),
+      <ROW>(<CELL_WARNING>(on "confirm update" do update secure_data[grpid],<b>("modification de: ",selectid)))
+      )}) 
+   from secure_data selected by grpid = selectid
+
+
+/* les noeuds roles */
+
+node all_roles
+<TABLE>(
+     <CAPTION>( expand href new_roles(include ICON.new), "<b>[[?TITLE_ROLE]]</b>"),
+     {<ROW>(include roles[roleid])
+               })
+from secure_roles
+order by roleid
+
+node roles[selectid]
+            {<CELL_BG1>(expand href del_roles[roleid] (include ICON.del),
+                        expand href maj_roles[roleid] (include ICON.maj),
+                        roleid,
+                        expand href all_rolenode[roleid] (include ICON.definition),
+                        expand href new_rolenode[roleid](include ICON.new)),                        
+              <CELL>(com)
+              }
+from secure_roles selected by roleid = selectid
+
+node new_roles
+ <TABLE>({active href all (
+   <ROW>(<CELL_WARNING>("Role_id      : ", set roleid = textfield(12, ""))),
+   <ROW>(<CELL_WARNING>("Comment      : ", set com = textarea(3,40, ""))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_roles,<b>("Création d'un rôle")))
+ )})
+
+node del_roles[selectid]
+    <TABLE>(<ROW>(<CELL_WARNING>(
+    {active href all ( on "confirm delete" do delete secure_roles[roleid],<b>("suppression de: ",selectid))}))) 
+   from secure_roles selected by roleid = selectid
+
+node maj_roles[selectid]
+   <TABLE>({active href all (
+      <ROW>(<CELL_WARNING>("Comment     : ", set com = textarea(3,40, com))),
+      <ROW>(<CELL_WARNING>(on "confirm update" do update secure_roles[roleid],<b>("modification de: ",selectid)))
+      )}) 
+   from secure_roles selected by roleid = selectid
+
+/* les noeuds roles-nodes */
+
+node all_rolenode[selectroleid]
+<TABLE>(
+     <CAPTION>( expand href new_rolenode[roleid](include ICON.new), <b>("[[?TITLE_NODE]]: ",selectroleid)),
+     {<ROW>(include rolenode[roleid,nodeid])
+               })
+from secure_rolenode
+selected by roleid=selectroleid
+order by nodeid
+
+node rolenode[selectroleid,selectnodeid]
+            {<CELL_BG1>(expand href del_rolenode[roleid,nodeid] (include ICON.del),
+                        expand href maj_rolenode[roleid,nodeid] (include ICON.maj),
+                        nodeid),
+              <CELL>(typeid),
+              <CELL>(display),
+              <CELL>(seq),
+              <CELL>(lib)
+              }
+from secure_rolenode 
+selected by roleid=selectroleid and nodeid=selectnodeid
+
+node new_rolenode[selectroleid]
+ <TABLE>({active href all (
+   set roleid = selectroleid,
+   <ROW>(<CELL_WARNING>("Node_id      : " ,set nodeid = textfield(40, ""))),
+   <ROW>(<CELL_WARNING>("Type         : ", set typeid = select(include list_codeid["NODETYPE","LAZY"]))),
+   <ROW>(<CELL_WARNING>("Display      : ", set display = select(include list_codeid["DISPLAYTYPE","ON MENU"]))),
+   <ROW>(<CELL_WARNING>("Seq          : " ,set seq     = textfield(10, "999"))),
+   <ROW>(<CELL_WARNING>("libellé      : " ,set lib     = textfield(40, ""))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_rolenode,<b>("Création d'un noeud pour le rôle ",selectroleid)))
+ )})
+
+node del_rolenode[selectroleid,selectnodeid]
+    <TABLE>(<ROW>(<CELL_WARNING>(
+    {active href all ( on "confirm delete" do delete secure_rolenode[roleid,nodeid],<b>("suppression de: ",selectnodeid))}))) 
+from secure_rolenode 
+selected by roleid=selectroleid and nodeid=selectnodeid
+
+node maj_rolenode[selectroleid,selectnodeid]
+   <TABLE>({active href all (
+   set roleid = selectroleid,
+   set nodeid = selectnodeid,
+   <ROW>(<CELL_WARNING>("Type         : ", set typeid = select(include list_codeid["NODETYPE",typeid]))),
+   <ROW>(<CELL_WARNING>("Display      : ", set display = select(include list_codeid["DISPLAYTYPE",display]))),
+   <ROW>(<CELL_WARNING>("Seq          : " ,set seq     = textfield(10, seq))),
+   <ROW>(<CELL_WARNING>("libellé      : " ,set lib     = textfield(40, lib))),
+   <ROW>(<CELL_WARNING>(on "confirm update" do update secure_rolenode[roleid,nodeid],<b>("modification de: ",selectnodeid)))
+      )}) 
+from secure_rolenode 
+selected by roleid=selectroleid and nodeid=selectnodeid
+
+
+/* les noeuds catégories de codes */
+
+node all_categories
+<TABLE>(
+     <CAPTION>( expand href new_categories(include ICON.new), "<b>[[?TITLE_CATEGORIE]]</b>"),
+     {<ROW>(include categories[catid])
+               })
+from secure_categories
+order by catid
+
+node categories[selectid]
+            {<CELL_BG1>(expand href del_categories[catid] (include ICON.del),
+                        expand href maj_categories[catid] (include ICON.maj),
+                        catid,
+                        expand href all_codes[catid] (include ICON.definition),
+                        expand href new_codes[catid](include ICON.new)),                        
+              <CELL>(com)
+              }
+from secure_categories selected by catid = selectid
+
+node new_categories
+ <TABLE>({active href all (
+   <ROW>(<CELL_WARNING>("Categ_id     : ", set catid = textfield(12, ""))),
+   <ROW>(<CELL_WARNING>("Comment      : ", set com = textarea(3,40, ""))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_categories,<b>("Création d'une catégorie")))
+ )})
+
+node del_categories[selectid]
+    <TABLE>(<ROW>(<CELL_WARNING>(
+    {active href all ( on "confirm delete" do delete secure_categories[catid],<b>("suppression de: ",selectid))}))) 
+   from secure_categories selected by catid = selectid
+
+node maj_categories[selectid]
+   <TABLE>({active href all (
+      <ROW>(<CELL_WARNING>("Comment     : ", set com = textarea(3,40, com))),
+      <ROW>(<CELL_WARNING>(on "confirm update" do update secure_categories[catid],<b>("modification de: ",selectid)))
+      )}) 
+   from secure_categories selected by catid = selectid
+
+
+/* les noeuds codes */
+
+node all_codes[selectcatid]
+<TABLE>(
+     <CAPTION>( expand href new_codes[catid](include ICON.new), <b>("[[?TITLE_CODE]]: ",selectcatid)),
+     {<ROW>(include codes[catid,codeid])
+               })
+from secure_codes
+selected by catid=selectcatid
+order by codeid
+
+node codes[selectcatid,selectcodeid]
+            {<CELL_BG1>(expand href del_codes[catid,codeid] (include ICON.del),
+                        expand href maj_codes[catid,codeid] (include ICON.maj),
+                        codeid),
+              <CELL>(abr),
+              <CELL>(listdef)
+              }
+from secure_codes 
+selected by catid=selectcatid and codeid=selectcodeid
+
+node new_codes[selectcatid]
+ <TABLE>({active href all (
+   set catid = selectcatid,
+   <ROW>(<CELL_WARNING>("Code_id      : " ,set codeid = textfield(12, ""))),
+   <ROW>(<CELL_WARNING>("Abr.         : ", set abr = textfield(40, ""))),
+   <ROW>(<CELL_WARNING>("List Def.    : ", set listdef = select(include list_admin_YN["N"]))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_codes,<b>("Création d'un code pour la catégorie ",selectcatid)))
+ )})
+
+node del_codes[selectcatid,selectcodeid]
+    <TABLE>(<ROW>(<CELL_WARNING>(
+    {active href all ( on "confirm delete" do delete secure_codes[catid,codeid],<b>("suppression de: ",codeid))}))) 
+from secure_codes 
+selected by catid=selectcatid and codeid=selectcodeid
+
+node maj_codes[selectcatid,selectcodeid]
+   <TABLE>({active href all (
+   set catid = selectcatid,
+   set codeid =selectcodeid,
+   <ROW>(<CELL_WARNING>("Abr.         : ", set abr = textfield(40, abr))),
+   <ROW>(<CELL_WARNING>("List Def.    : ", set listdef = select(include list_admin_YN[listdef]))),
+      <ROW>(<CELL_WARNING>(on "confirm update" do update secure_codes[catid,codeid],<b>("modification de: ",selectcodeid)))
+      )}) 
+from secure_codes 
+selected by catid=selectcatid and codeid=selectcodeid
+
+/* les noeuds autorisations */
+
+node all_grants[selectuserid]
+<TABLE>(
+     <CAPTION>( expand href new_grants[userid](include ICON.new), <b>("[[?TITLE_GRANT]]: ",selectuserid)),
+     {<ROW>(include grants[userid,grpid,roleid])
+               })
+from secure_grants
+selected by userid=selectuserid
+order by grpid,roleid
+
+node grants[selectuserid,selectgrpid,selectroleid]
+            {<CELL_BG1>(expand href del_grants[userid,grpid,roleid] (include ICON.del),
+                        grpid),
+              <CELL>(roleid)
+              }
+from secure_grants 
+selected by userid=selectuserid and roleid=selectroleid and grpid=selectgrpid
+
+node new_grants[selectuserid]
+ <TABLE>({active href all (
+   set userid = selectuserid,
+   <ROW>(<CELL_WARNING>("groupe data   : ", set grpid = select(include list_grpid["PUBLIC"]))),
+   <ROW>(<CELL_WARNING>("role          : ", set roleid = select(include list_roleid["ANONYM"]))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_grants,<b>("Création d'une autorisation pour l'utilisateur ",selectuserid)))
+ )})
+
+node del_grants[selectuserid,selectgrpid,selectroleid]
+    <TABLE>(<ROW>(<CELL_WARNING>(
+    {active href all ( on "confirm delete" do delete secure_grants[userid,grpid,roleid],<b>("suppression de: ",grpid,"-",roleid))}))) 
+from secure_grants 
+selected by userid=selectuserid and roleid=selectroleid and grpid=selectgrpid
+
+
+/* les noeuds projet */
+
+node all_projects
+<TABLE>(
+     <CAPTION>( expand href new_projects(include ICON.new), "<b>[[?TITLE_PROJECT]]</b>"),
+     {<ROW>(include projects[projectid])
+               })
+from secure_projects
+order by projectid
+
+node projects[selectid]
+            {<CELL_BG1>(expand href del_projects[projectid] (include ICON.del),
+                        href NODE.project[projectid]("nodes def."),
+                        expand href maj_projects[projectid] (include ICON.maj),
+                        projectid,": ",com,
+                        expand href all_txt[projectid] (include ICON.definition),
+                        expand href new_txt[projectid](include ICON.new))
+              }
+from secure_projects selected by projectid = selectid
+
+node new_projects
+ <TABLE>({active href all_projects (
+   <ROW>(<CELL_WARNING>("Project_id   : ", set projectid = textfield(12, ""))),
+   <ROW>(<CELL_WARNING>("Comment      : ", set com = textarea(3,40, ""))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_projects,<b>("Création d'un projet")))
+ )})
+
+node del_projects[selectid]
+    <TABLE>(<ROW>(<CELL_WARNING>(
+    {active href all_projects ( on "confirm delete" do delete secure_projects[projectid],<b>("suppression de: ",selectid))}))) 
+   from secure_projects selected by projectid = selectid
+
+node maj_projects[selectid]
+   <TABLE>({active href all_projects (
+      <ROW>(<CELL_WARNING>("Comment     : ", set com = textarea(3,40, com))),
+      <ROW>(<CELL_WARNING>(on "confirm update" do update secure_projects[projectid],<b>("modification de: ",selectid)))
+      )}) 
+   from secure_projects selected by projectid = selectid
+
+
+/* les noeuds textes*/
+
+node all_txt[selectprojectid]
+<TABLE>(
+     <CAPTION>( expand href new_txt[projectid](include ICON.new), <b>("[[?TITLE_TXT]]: ",selectprojectid)),
+     {<ROW>(include txt[projectid,txtid])
+               })
+from secure_txt
+selected by projectid=selectprojectid
+order by txtid
+
+node txt[selectprojectid,selecttxtid]
+            {<CELL_BG1>(expand href del_txt[projectid,txtid] (include ICON.del),
+                        expand href maj_txt[projectid,txtid] (include ICON.maj),
+                        txtid,": ", lib,
+                        expand href new_txtlang[projectid,txtid](include ICON.new),                
+                        include all_txtlang[projectid,txtid])
+              }
+from secure_txt 
+selected by projectid=selectprojectid and txtid=selecttxtid
+
+node new_txt[selectprojectid]
+ <TABLE>({active href all (
+   set projectid = selectprojectid,
+   <ROW>(<CELL_WARNING>("txt_id       : " ,set txtid = textfield(12, ""))),
+   <ROW>(<CELL_WARNING>("lib          : ", set lib = textarea(3,40, ""))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_txt,<b>("Création d'un texte pour le projet ",selectprojectid)))
+ )})
+
+node del_txt[selectprojectid,selecttxtid]
+    <TABLE>(<ROW>(<CELL_WARNING>(
+    {active href all ( on "confirm delete" do delete secure_txt[projectid,txtid],<b>("suppression de: ",txtid))}))) 
+from secure_txt 
+selected by projectid=selectprojectid and txtid=selecttxtid
+
+node maj_txt[selectprojectid,selecttxtid]
+   <TABLE>({active href all (
+   set projectid = selectprojectid,
+   set txtid =selecttxtid,
+   <ROW>(<CELL_WARNING>("lib          : ", set lib = textarea(3,40, lib))),
+      <ROW>(<CELL_WARNING>(on "confirm update" do update secure_txt[projectid,txtid],<b>("modification de: ",selecttxtid)))
+      )}) 
+from secure_txt 
+selected by projectid=selectprojectid and txtid=selecttxtid
+
+/* les noeuds textes autres langues*/
+
+node all_txtlang[selectprojectid,selecttxtid]
+<TABLE>(
+   /*  <CAPTION>( expand href new_txtlang[projectid](include ICON.new), <b>("textes: ",selectprojectid)),*/
+     {<ROW>(include txtlang[projectid,txtid,lang])
+               })
+from secure_txtlang
+selected by projectid=selectprojectid and txtid=selecttxtid
+order by lang
+
+node txtlang[selectprojectid,selecttxtid,selectlang]
+        <ROW>({<CELL_BG1>(expand href del_txtlang[projectid,txtid,lang] (include ICON.del),
+                        expand href maj_txtlang[projectid,txtid,lang] (include ICON.maj),
+                        lang),
+             <CELL>(lib)
+              })
+from secure_txtlang 
+selected by projectid=selectprojectid and txtid=selecttxtid and lang=selectlang
+
+node new_txtlang[selectprojectid,selecttxtid]
+ <TABLE>({active href all (
+   set projectid = selectprojectid,
+   set txtid = selecttxtid,
+   <ROW>(<CELL_WARNING>("lang         : " ,set lang = select(include list_superlang["ENG"]))),
+   <ROW>(<CELL_WARNING>("lib          : ", set lib = textarea(3,40, ""))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_txtlang,<b>("Création d'une langue pour le texte ",selecttxtid)))
+ )})
+
+node del_txtlang[selectprojectid,selecttxtid,selectlang]
+    <TABLE>(<ROW>(<CELL_WARNING>(
+    {active href all ( on "confirm delete" do delete secure_txtlang[projectid,txtid,lang],<b>("suppression de: ",lang))}))) 
+from secure_txtlang 
+selected by projectid=selectprojectid and txtid=selecttxtid and lang=selectlang
+
+node maj_txtlang[selectprojectid,selecttxtid,selectlang]
+   <TABLE>({active href all (
+   set projectid = selectprojectid,
+   set txtid =selecttxtid,
+   set lang=selectlang,
+   <ROW>(<CELL_WARNING>("lib          : ", set lib = textarea(3,40, lib))),
+      <ROW>(<CELL_WARNING>(on "confirm update" do update secure_txtlang[projectid,txtid,lang],<b>("modification de: ",lang)))
+      )}) 
+from secure_txtlang 
+selected by projectid=selectprojectid and txtid=selecttxtid and lang=selectlang
+
+
+
+/***** listes ****/
+
+
+/* node list_admin_opt[selectedvalue]
+   {<option>(casewhen("ADMIN"=selectedvalue,"<selected_option/>",""),"ADMIN"),
+    <option>(casewhen("NO"=selectedvalue,"<selected_option/>",""),"NO")} */   
+
+node list_admin_YN[selectedvalue]
+   {<option>(casewhen("Y"=selectedvalue,"<selected_option/>",""),"Y"),
+    <option>(casewhen("N"=selectedvalue,"<selected_option/>",""),"N")}    
+
+node list_grpid[selectedvalue]
+     include list_grpid_selected[selectedvalue],
+     {<option>(grpid)}
+   from secure_data
+   selected by  grpid!=selectedvalue
+   order by grpid
+   
+node list_manager[selectvalue]
+     {<option>(casewhen(MANAGERID=selectvalue,"<selected_option/>",""),<value>(MANAGERID),MANAGER)}    
+   
+   from secure_manager   
+   order by MANAGER   
+   
+node list_grpid_selected[selectedvalue]
+     {<option>("<selected_option/>",grpid)}
+   from secure_data
+   selected by  grpid=selectedvalue
+   order by grpid
+
+
+node list_roleid[selectedvalue]
+     {<option>(casewhen(roleid=selectedvalue,"<selected_option/>",""), roleid)}
+   from secure_roles
+   order by roleid
+
+/*
+node radio_codeid[selectcatid,selectedvalue]
+     include radio_codeid_checked[selectcatid,selectedvalue],
+     {<input name="av" type="radio" value=codeid>(),abr}
+   from secure_codes
+   selected by catid=selectcatid and codeid!=selectedvalue
+   order by codeid   
+
+node radio_codeid_checked[selectcatid,selectedvalue]
+     {<input name="av" type="radio" value=codeid CHECKED="">(),abr}
+   from secure_codes
+   selected by catid=selectcatid and codeid=selectedvalue
+   order by codeid   
+*/   
+
+node list_codeid[selectcatid,selectedvalue]
+     {<option>(if(codeid=selectedvalue,"<selected_option/>",""),<value>(codeid),abr)}
+   from secure_codes
+   selected by catid=selectcatid
+   order by codeid
+
+node list_superlang[selectedvalue]
+     include list_codeid["LANG",selectedvalue],
+     include list_codeid["STYLE",selectedvalue]
+     
+node getManager[selmanagerid]     
+     {manager} from  secure_manager selected by MANAGERID = selmanagerid
+     
+/* les noeuds connects */
+
+node all_connects
+include top,
+<TABLE>(
+     <CAPTION>( expand href new_connects(include ICON.new), "<b>[[?TITLE_CONNECT]]</b>"),
+     {<ROW>(include connects[connectId])
+               })
+from secure_connects
+order by connectId
+
+node connects[selectid]
+cachesize=0  // pour avoir des infos sur les connections
+            {<CELL_BG1>(expand href del_connects[connectid] (include ICON.del),
+                        expand href maj_connects[connectid] (include ICON.maj),
+                        include SECURE.testDB[connectid],connectid),                        
+              <CELL>(driver),
+              <CELL>(url),
+              <CELL>(userdb),
+              <CELL>(expand href maj_pwd_connects[connectid] (include ICON.maj),"pwd"),
+              <CELL>(com)
+              }
+from secure_connects selected by connectid = selectid
+
+node new_connects
+ <TABLE>({active href all (
+   <ROW>(<CELL_WARNING>("connect_id  : ", set connectid = textfield(12, ""))),
+   <ROW>(<CELL_WARNING>("driver      : ", set driver = textfield(80, ""))),
+   <ROW>(<CELL_WARNING>("url         : ", set url = textfield(80, ""))),
+   <ROW>(<CELL_WARNING>("userdb      : ", set userdb = textfield(80, ""))),
+   <ROW>(<CELL_WARNING>("pwddb         : ", set encoded(pwddb) = textfield(80, ""))),
+   <ROW>(<CELL_WARNING>("com         : ", set com = textarea(3,80, ""))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert secure_connects,<b>("Création d'une connection")))
+ )})
+
+node maj_connects[selectid]
+ <TABLE>({active href all (
+   <ROW>(<CELL_WARNING>("driver      : ", set driver = textfield(80, driver))),
+   <ROW>(<CELL_WARNING>("url         : ", set url = textfield(80,url))),
+   <ROW>(<CELL_WARNING>("userdb      : ", set userdb = textfield(80, userdb))),
+   <ROW>(<CELL_WARNING>("com         : ", set com = textarea(3,80, com))),
+   <ROW>(<CELL_WARNING>(on "confirm update" do update secure_connects[connectid],<b>("modification de: ",connectid)))
+ )})
+   from secure_connects selected by connectid = selectid
+
+node del_connects[selectid]
+   <TABLE>(<ROW>(<CELL_WARNING>(
+   {active href all ( on "confirm delete" do delete secure_connects[connectid],<b>("suppression de: ",connectid))}))) 
+   from secure_connects selected by connectid = selectid
+
+node maj_pwd_connects[selectid]
+   <TABLE>({active href all (
+      <ROW>(<CELL_WARNING>("password     : ", set encoded(pwddb) = textfield(12, "*****"))),
+      <ROW>(<CELL_WARNING>(on "confirm update" do update secure_connects[connectid],<b>("modification de: ",connectid)))
+      )}) 
+   from secure_connects selected by connectid = selectid
+
+
+
+/**** menu utilisateur ****/
+
+node menu	
+    <LIST>( expand href maj_pwd_users["[[USER]]"] (include ICON.pwd), 
+           "Roles autorisés: [[USER]]-[[GRP]]",
+           "<hr/>",
+           include gprid_askmodify, 
+         {
+         <ITEM>(roleid," - ",com,
+                include menuitem[userid,grpid,roleid],
+                include menuitemparam[userid,grpid,roleid])			//RZ 22.11.2004 pour ajouter en paramètre l'année en cours pour le projet 'SINISTRES'
+                },
+         include call_lazy_admin_clearCache_window["[[GRP]]"],
+         include genPwd["[[GRP]]"],
+         include checkDB["[[GRP]]"]
+         )
+from secure_menu
+selected by userid="[[USER]]" and grpid="[[GRP]]"
+order by roleid       
+
+node menuitem[selectuserid,selectgrpid,selectroleid]
+   <LIST>({
+         <ITEM>("<a href=\"ns?a=",  /* build a href */
+                     nodeid,
+                "&amp;u=\">",lib,"</a>")})
+   
+                
+from secure_menuitem
+selected by userid=selectuserid and grpid=selectgrpid and roleid=selectroleid
+and nodeid != "SINISTRES.start_sinistres"  //RZ 22.11.2004 pour ajouter en paramètre l'année en cours pour le projet 'SINISTRES'
+order by seq,nodeid 
+
+node menuitemparam[selectuserid,selectgrpid,selectroleid]   //RZ 22.11.2004 pour ajouter en paramètre l'année en cours pour le projet 'SINISTRES'
+   <LIST>({
+         <ITEM>("<a href=\"ns?a=",  /* build a href */
+                     nodeid,
+                "&amp;u=",to_char(sysdate,"yyyy"),"\">",lib,"</a>")})
+   
+                
+from secure_menuitem
+selected by userid=selectuserid and grpid=selectgrpid and roleid=selectroleid
+and nodeid = "SINISTRES.start_sinistres"
+order by seq,nodeid       
+
+node gprid_askmodify
+   {active href grpid_modify (on "changer de groupe" do display node,
+                                         " grpid ", set parameter = select(include list_usergrpid),
+                                         set parameter="NO_NODE"
+                               )}
+	from secure_usergrpid
+   selected by userid="[[USER]]" and grpid!="[[GRP]]"
+/*   and rownum <2 */
+   order by grpid 
+
+node grpid_modify[selectGRP,selectNode] {  /* and modify grpid in the server */
+		include grpid_modify_with_node[selectGRP,selectNode],
+		include grpid_modify_no_node[selectGRP,selectNode]} 
+
+node grpid_modify_with_node[selectGRP,selectNode] {
+  include SECURE.buildNode["SECURE","change_GRP_and_call_node","SECURE","_n1_[[USER]]",selectNode],
+  include  SECURE.dynamicNode["SECURE","_n1_[[USER]]",selectNode]}
+  
+ from dual selected by selectNode != "NO_NODE"
+ 
+node change_GRP_and_call_node[_project, _node,selectNode]   
+  {"node ", _node, "[selectNode]",    
+     "\n{include ",selectNode,"}"}
+
+node grpid_modify_no_node[selectGRP,selectNode] {include menu} /* and modify grpid in the server */
+ from dual selected by  selectNode = "NO_NODE"
+
+node lazy_admin_clearCache {include lazy_admin_clearAllNodes, "clear cache at :",SYSDATE,include menu} /* and clear all caches in the server */
+
+node call_lazy_admin_clearCache_window[selectGroupe]
+	{<ITEM>(<NEW_WINDOW a_node="SECURE.lazy_admin_clearCache_window"				    
+			       a_title="clear_cache" 
+				    a_param= "width=200,height=30,resizable=no, top=200, left=200 scrollbars=no"
+				    a_value= "Effacer les caches">())}
+
+	from dual
+   selected by selectGroupe= "SYSTEM"
+
+node lazy_admin_clearCache_window
+	{active href lazy_admin_clearCache_window(
+			on "Effacer les caches" do display node,"<BR/>", 
+			include lazy_admin_clearAllNodes, "clear cache at :",to_char(SYSDATE,"HH:MI:ss"))} 
+
+node lazy_admin_clearAllNodes {null} /* and clear all caches in the server */
+
+node list_usergrpid
+     include list_usergrpid_selected,
+     {<option>(grpid)}
+   from secure_usergrpid
+   selected by userid="[[USER]]" and grpid!="[[GRP]]"
+   order by grpid
+   
+node list_usergrpid_selected
+     {<option>("<selected_option/>",grpid)}
+   from secure_usergrpid
+   selected by userid="[[USER]]" and grpid="[[GRP]]"
+   order by grpid
+
+node genPwd[selectGroupe]
+	{active href pwd_modify (<ITEM>(on "Crypter un mot de passe" do display node,
+                                         " : ", set parameter = textfield(20)))}
+	from dual
+   selected by selectGroupe= "SYSTEM"
+   
+   
+node pwd_modify[selectWord]
+  {include menu,
+  	<LIST>(<ITEM>("'",selectWord,"'  = ",include SECURE.encryptpwd[selectWord]))
+   }
+
+node checkDB[selectGroupe]
+	{"Dictionnary Lazy is ", include SECURE.testDB["DICTLAZY"],
+	 <P>(href SECURE.restartDataBase ("redémarrer toutes les connections BD"))
+	}
+	from dual
+   selected by selectGroupe= "SYSTEM"
+
+node restartDataBase[selectGroupe]
+	{include SECURE.restartDB,
+	 include all_connects
+	}
+
+      
+end
+                     
+
+
+/*
+
+node poly
+"<","[[?STRUCT1]]>",
+              "[[?TITLE_USER]]",
+              {"<","[[?STRUCT2]]>",
+                             "<","[[?STRUCT3]]>",userid,"</[[?STRUCT3]]>",
+               "</[[?STRUCT2]]>"
+              },
+"</[[?STRUCT1]]>"
+from secure_users
+order by userid   
+*/
+    

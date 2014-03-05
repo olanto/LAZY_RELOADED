@@ -1,0 +1,52 @@
+define
+
+project PROFIL
+
+
+node welcome
+ {"welcome to profile management <hr/>",
+  include user_profil}
+
+/* les noeuds data */
+
+node user_profil
+<TABLE>(
+     <CAPTION>( expand href new_profil(include ICON.new), "<b>Profiles</b>"),
+     {include profil 
+               })
+
+node profil
+            {<ROW>(
+			   <CELL_BG1>(expand href del_profil[userid,profilid] (include ICON.del),
+                        expand href maj_profil[userid,profilid] (include ICON.maj),
+                        profilid),                        
+                <CELL>( content)
+              )}
+from profil_user selected by userid = "[[USER]]"
+
+node new_profil
+ <TABLE>({active href welcome (
+   set userid = "[[USER]]",
+   <ROW>(<CELL_WARNING>("prolil id : ", set profilid = textfield(32, ""))),
+   <ROW>(<CELL_WARNING>("content   : ", set content = textarea(3,40, "copy your text here"))),
+   <ROW>(<CELL_WARNING>(on "confirm insert" do insert profil_user,<b>("create a new profile")))
+ )})
+
+node del_profil[selectuserid,selectprofilid]
+    <TABLE>(<ROW>(<CELL_WARNING>(
+    {active href welcome ( on "confirm delete" do delete profil_user[userid,profilid],<b>("suppression de: ",selectprofilid))}))) 
+   from profil_user selected by userid=selectuserid and profilid=selectprofilid
+
+node maj_profil[selectuserid,selectprofilid]
+   <TABLE>({active href welcome (
+         <ROW>(<CELL_WARNING>("content   : ", set content = textarea(3,40, "copy your text here"))),
+      <ROW>(<CELL_WARNING>(on "confirm update" do update profil_user[userid,profilid],<b>("modification de: ",selectprofilid)))
+      )}) 
+   from profil_user selected by userid=selectuserid and profilid=selectprofilid
+
+
+
+ 
+end	                                                    
+
+         

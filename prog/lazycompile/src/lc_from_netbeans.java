@@ -32,7 +32,7 @@ public class lc_from_netbeans {
        
         out = new PrintWriter(new FileOutputStream("out.sql"));
 
-        compile("C:/LAZY_RELOADED/prog/lazycompile/BASIC/myterm.lzy");
+        compile("C:/LAZY_RELOADED/lazy-schema/myterm.lzy");
 
 //        compile("C:/LAZY_RELOADED/prog/lazycompile/BASIC/icon.lzy");
 //        compile("C:/LAZY_RELOADED/prog/lazycompile/BASIC/node.lzy");        

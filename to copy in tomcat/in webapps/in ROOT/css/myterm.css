@@ -1,0 +1,68 @@
+.TABLE { border: 1  solid #888800 ;background-color: #FFFFFF; width=100%}
+.TABLE1 { border: 0  solid #888800 ;background-color: #FFFFFF; width=100%}
+.TABLE2 { border: 1  solid #888800 ;background-color: #CC9966; width=100%}
+.TABLE3 { border: 1  solid #888800 ;background-color: #FFFFFF; width=100%}
+.TABLE4 { border: 0  solid #888800 ;background-color: #999999; width=100%}
+.TABLE5 { border: 0  solid #888800 ;background-color: #BBBBFF; width=100%}
+.TABLE_MIN { border: 1  solid #888800 ;background-color: #FFFFFF; width=0%;
+             line-height: 100%}
+.TABLE_BG1 {border: 1 solid #000000 ;background-color: #C0C0C0}
+.TABLE_BG2 { border: 0 solid #880000 ;background-color: white}
+.TABLE_BG3 { border: 1 solid #888800 ;background-color: #191919}
+.TABLE_BG4 { border: 1 solid #880000 ;background-color: white}
+
+.CAPTION {cellspacing: 0; border: 1 solid #FFFFFF ;background-color: #DDDDDD
+          font-size: 12 pt; font-family:Tahoma;
+          color: #000000;
+          font-style: bold; font-weight: bold}
+
+.CELL_TITLE {cellspacing: 0; border: 0 solid #FFFFFF ;background-color: #DDDDDD;
+          font-size: 10 pt; font-family:Tahoma;
+          color: #000000;
+          font-style: normal; font-weight: bold}
+.CELL_TITLE_R {cellspacing: 0; border: 0 solid #FFFFFF ;background-color: #DDDDDD;
+          color: #000000;
+          font-style: normal; font-weight: bold ; text-align: right;}
+
+.ROW {background-color: #EEFFFF}
+.ROW1 {background-color: #FFFFFF}
+.ROW2 {background-color: #CC9966}
+.ROW3 {background-color: #DDDDDD}
+.ROW4 {background-color: #999999}
+.ROW5 {background-color: #BBBBFF}
+.ROWT { }
+.ROWODD{background-color:  #EEEEEE}
+.ROWEVEN{background-color: #FFFFFF}
+.CELLT { }
+.CELL { font-size: 9 pt; font-family:Tahoma; }
+.CELL_OLD { background-color: #EEFFFF; padding-left: 2pt; padding-right: 2 pt }
+.CELL_BG1 { background-color: #BBBBFF ; padding-left: 5pt; padding-right: 5 pt  }
+.CELL_BG2 { background-color: white}
+.CELL_BG2_UP {background-color: white; vertical-align : top;}
+.CELL_R {  text-align: right; }
+.CELL_FIX { background-color: #EEFFFF; font-family: Courier }
+.CELL_WARNING { background-color: #FFDDDD; text-align: left;  }
+.CELL_print { background-color: white; font-size: 7pt ; padding-left: 5pt; padding-right: 5 pt}
+.CELL_LIB { background-color: #EEFFFF; padding-left: 2pt; padding-right: 2 pt;font-style: italic; }
+.CELL_CODE { background-color: #EEFFFF; padding-left: 2pt; padding-right: 2 pt;font-style: normal; }
+.CELL_VAL { background-color: #EEFFFF; padding-left: 2pt; padding-right: 2 pt;font-style: normal; font-weight: bold }
+
+.ICON {height: 19px ; border: 0 ;}
+.LOGO{height: 40px ; border: 5 ;}
+
+.TITLE_PAGE { text-indent: 0; background-color: #FFFFFF; font-size: 18 pt; font-family: 
+               Tahoma; line-height: 100%; text-align: center ; color: #000000;
+               font-style: normal; font-weight: bold }
+.TITLE2 { text-indent: 0; background-color: #FFFFFF; font-size: 14 pt; font-family: 
+               Tahoma; line-height: 100%; text-align: left; color: #000000;
+               font-style: normal; font-weight: bold }
+.TITLE3 { text-indent: 30; background-color: #FFFFFF; font-size: 13 pt; font-family: 
+               Tahoma; line-height: 100%; text-align: left; color: #000000;
+               font-style: italic}
+               
+.P { text-indent: 0;  font-size: 10 pt; font-family: 
+               Tahoma; line-height: 20%; text-align: justify ; color: #000000 }
+.P_small    { text-align: justify; line-height: 100%; text-indent: 0; font-size: 9 pt; font-family: 
+               Tahoma; color: #000000; margin-top: 3; margin-bottom: 0 }
+
+
